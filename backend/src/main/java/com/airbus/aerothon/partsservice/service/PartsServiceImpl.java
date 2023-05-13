@@ -1,12 +1,18 @@
 package com.airbus.aerothon.partsservice.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.airbus.aerothon.partsservice.model.Assignment;
 import com.airbus.aerothon.partsservice.model.Part;
+import com.airbus.aerothon.partsservice.model.Users;
+import com.airbus.aerothon.partsservice.repository.AssignmentRepo;
 import com.airbus.aerothon.partsservice.repository.PartsRepo;
+import com.airbus.aerothon.partsservice.repository.UserRepository;
 import com.airbus.aerothon.partsservice.util.Filter;
 
 import jakarta.persistence.EntityManager;
@@ -23,7 +29,13 @@ public class PartsServiceImpl implements PartsService {
 	PartsRepo partsRepo;
 	
 	@Autowired
+	UserRepository usersRepo;
+	
+	@Autowired
 	private EntityManager entityManager;
+	
+	@Autowired
+	AssignmentRepo assignRepo;
 
 	@Override
 	public Part getPartById(Long id) {
@@ -59,4 +71,22 @@ public class PartsServiceImpl implements PartsService {
         query.where(predicate);
         return entityManager.createQuery(query).getResultList();
     }
+
+	@Override
+	public String assignPart(Long userId, Long partId) {
+		// TODO Auto-generated method stub
+		Part part = partsRepo.getById(partId);
+		Users user = usersRepo.getById(userId);
+		
+		if(part==null || user==null || part.isRecycled()) {
+			Map<String,Object> error = new HashMap<>();
+			return "invalid partId or UserId or Part already used";
+		}
+		partsRepo.updateStatus(partId);
+		Assignment assign = new Assignment();
+		assign.setPartId(partId);
+		assign.setUserId(userId);
+		assignRepo.saveAndFlush(assign);
+		return "success";
+	}
 }

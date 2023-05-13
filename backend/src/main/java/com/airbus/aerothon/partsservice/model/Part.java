@@ -48,6 +48,12 @@ public class Part {
 	public Long getId() {
 		return id;
 	}
+	public Integer getRecycledPartLandfillWaste() {
+		return recycledPartLandfillWaste;
+	}
+	public void setRecycledPartLandfillWaste(Integer recycledPartLandfillWaste) {
+		this.recycledPartLandfillWaste = recycledPartLandfillWaste;
+	}
 	public void setId(Long id) {
 		this.id = id;
 	}
