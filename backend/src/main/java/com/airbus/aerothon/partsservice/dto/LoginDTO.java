@@ -1,43 +1,15 @@
 package com.airbus.aerothon.partsservice.dto;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
+import javax.xml.bind.annotation.XmlRootElement;
 
+import lombok.Data;
+
+@Data
+@XmlRootElement(name = "request")
 public class LoginDTO {
+    
+    private String email;
 
-	@NotNull(message = "email is required")
-	@NotBlank(message = "email must not be empty")
-	String email;
-	
-	@NotNull(message = "password is required")
-	@NotBlank(message = "password must not be empty")
-	String password;
+    private String password;
 
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
-	public LoginDTO(@NotNull(message = "email is required") @NotBlank(message = "email must not be empty") String email,
-			@NotNull(message = "password is required") @NotBlank(message = "password must not be empty") String password) {
-		super();
-		this.email = email;
-		this.password = password;
-	}
-
-	public LoginDTO() {
-		super();
-	}
-	
 }

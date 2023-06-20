@@ -1,12 +1,16 @@
 package com.airbus.aerothon.partsservice.service;
 
-import java.util.Map;
 
 import com.airbus.aerothon.partsservice.dto.LoginDTO;
-import com.airbus.aerothon.partsservice.model.Users;
+import com.airbus.aerothon.partsservice.dto.SessionDTO;
+import com.airbus.aerothon.partsservice.dto.SignUpDTO;
 
 public interface UserService {
+    
+    public SessionDTO login(LoginDTO loginDTO);
 
-	Map<String,Object> login(LoginDTO loginDTO);
-	Map<String,Object> signUp(Users user);
+    public void logout(String username, String password);
+
+    public String signUp(SignUpDTO signUpDTO);
+
 }
