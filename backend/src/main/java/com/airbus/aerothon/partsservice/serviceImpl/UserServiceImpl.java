@@ -7,14 +7,14 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import com.airbus.aerothon.partsservice.util.PasswordHelper;
+import com.airbus.aerothon.partsservice.dto.AssignRoleDTO;
 import com.airbus.aerothon.partsservice.dto.LoginDTO;
 import com.airbus.aerothon.partsservice.dto.SessionDTO;
 import com.airbus.aerothon.partsservice.dto.SignUpDTO;
+import com.airbus.aerothon.partsservice.model.Role;
 import com.airbus.aerothon.partsservice.model.User;
 import com.airbus.aerothon.partsservice.repository.UserDao;
 import com.airbus.aerothon.partsservice.service.UserService;
-
-import io.micrometer.common.util.StringUtils;
 
 @Service
 public class UserServiceImpl implements UserService{
@@ -73,10 +73,27 @@ public class UserServiceImpl implements UserService{
             byte[] hashArr = passwordHelper.getHashWithSalt(signUpDTO.getPassword(), saltArr);
             String hash = passwordHelper.byteToString(hashArr);
             user.setHash(hash);
+            Role role = userDao.getRoleById(5L);
+            user.setRole(role);
             userDao.saveUser(user);
             return "Success";
         } catch (Exception e) {
             LOGGER.error("Exception from signup method: ", e);
+        }
+        return "Error";
+    }
+
+    @Override
+    public String assignRole(AssignRoleDTO assignRoleDTO) {
+        LOGGER.info("Inside signup method: " + assignRoleDTO);
+        try {
+            User user = userDao.getUserByEmail(assignRoleDTO.getEmail());
+            Role role = userDao.getRoleById(assignRoleDTO.getRoleId());
+            user.setRole(role);
+            userDao.saveUser(user);
+            return "Success";
+        } catch (Exception e) {
+            LOGGER.error("Exception from assignRole method: ", e);
         }
         return "Error";
     }

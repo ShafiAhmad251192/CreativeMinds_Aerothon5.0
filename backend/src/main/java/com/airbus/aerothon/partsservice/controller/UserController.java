@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.airbus.aerothon.partsservice.dto.AssignRoleDTO;
 import com.airbus.aerothon.partsservice.dto.LoginDTO;
 import com.airbus.aerothon.partsservice.dto.SessionDTO;
 import com.airbus.aerothon.partsservice.dto.SignUpDTO;
@@ -22,7 +23,7 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @PostMapping("/login")
+    @PostMapping(value = "/login", consumes = "application/json", produces = "application/json")
     public ResponseEntity<?> login(@RequestBody LoginDTO loginDTO){
         return new ResponseEntity<SessionDTO>(userService.login(loginDTO), HttpStatus.OK);
     }
@@ -35,5 +36,10 @@ public class UserController {
     @PostMapping(value = "/signup", consumes = "application/json", produces = "application/json")
     public ResponseEntity<?> signup(@RequestBody SignUpDTO signupDTO){
         return new ResponseEntity<String>(userService.signUp(signupDTO), HttpStatus.OK);
+    }
+
+    @PostMapping(value = "/addRole", consumes = "application/json", produces = "application/json")
+    public ResponseEntity<?> addRole(@RequestBody AssignRoleDTO assignRoleDTO){
+        return new ResponseEntity<String>(userService.assignRole(assignRoleDTO), HttpStatus.OK);
     }
 }

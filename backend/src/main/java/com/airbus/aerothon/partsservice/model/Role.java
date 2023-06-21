@@ -7,39 +7,26 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "user", schema = "iam_schema")
+@Table(name = "role", schema = "iam_schema")
 @Where(clause = "is_deleted = 0")
-public class User { 
+public class Role {
     
-    @Column(name = "pk_user_id")
+    @Column(name = "pk_role_id")
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
-    private Long pkUserId;
+    private Long pkRoleId;
 
     @Column(name = "name")
     private String name;
 
-    @Column(name = "email")
-    private String email;
+    @Column(name = "description")
+    private String description;
 
-    @Column(name = "hash")
-    private String hash;
-
-    @Column(name = "salt")
-    private String salt;
-
-    @ManyToOne
-    @JoinColumn(name = "fk_role_id")
-    private Role role;
-    
     @Column(name = "is_deleted")
-    private boolean isDeleted;
-
+    private Boolean isDeleted;
 }
